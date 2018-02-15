@@ -1,10 +1,10 @@
 HelloWorld = artifacts.require('./HelloWorld.sol');
 
-contract('VacationJS', function ([owner]) {
+contract('HelloWorld', function ([owner]) {
     let helloWorld;
 
     beforeEach('setup of contract', async function () {
-        helloWorld = await HelloWorld.new(owner);
+        helloWorld = await HelloWorld.new();
     });
 
     it('returns hello world', async function () {
