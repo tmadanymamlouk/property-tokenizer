@@ -99,9 +99,9 @@ contract Share is ERC20Interface, Owned {
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
-    function Share(string tokenSymbol, string tokenName) public {
-        symbol = tokenSymbol;
-        name = tokenName;
+    function Share() public {
+        symbol = "ELB";
+        name = "Elphilharmonie";
         decimals = 18;
         _totalSupply = 10000;
         balances[owner] = _totalSupply;
