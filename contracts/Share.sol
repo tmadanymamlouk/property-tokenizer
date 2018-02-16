@@ -103,7 +103,8 @@ contract Share is ERC20Interface, Owned {
         symbol = tokenSymbol;
         name = tokenName;
         decimals = 18;
-        _totalSupply = 1000000 * 10**uint(decimals);
+       // _totalSupply = 1000000 * 10**uint(decimals);
+        _totalSupply = 1000;
         balances[owner] = _totalSupply;
         Transfer(address(0), owner, _totalSupply);
     }
