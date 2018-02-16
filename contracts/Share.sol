@@ -17,7 +17,12 @@ contract Share {
         symbol = tokensymbol;
     }
 
-    /* Send coins */
+    // Send `tokens` amount of tokens from address `from` to address `to`
+    // The transferFrom method is used for a withdraw workflow, allowing contracts to send
+    // tokens on your behalf, for example to "deposit" to a contract address and/or to charge
+    // fees in sub-currencies; the command should fail unless the _from account has
+    // deliberately authorized the sender of the message via some mechanism; we propose
+    // these standardized APIs for approval:
     function transfer(address _to, uint256 _value) public {
         require(balanceOf[msg.sender] >= _value);           // Check if the sender has enough
         require(balanceOf[_to] + _value >= balanceOf[_to]); // Check for overflows
