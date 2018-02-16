@@ -91,6 +91,7 @@ contract Share is ERC20Interface, Owned {
     string public  name;
     uint8 public decimals;
     uint public _totalSupply;
+    address[] public shareHolders;
 
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
@@ -108,6 +109,7 @@ contract Share is ERC20Interface, Owned {
         symbol = "ELB";
         name = "Elphilharmonie";
         decimals = 18;
+        shareHolders = [owner];
         _totalSupply = 10000;
         balances[owner] = _totalSupply;
         Transfer(address(0), owner, _totalSupply);
@@ -120,7 +122,6 @@ contract Share is ERC20Interface, Owned {
     function totalSupply() public constant returns (uint) {
         return _totalSupply  - balances[address(0)];
     }
-
 
     // ------------------------------------------------------------------------
     // Get the token balance for account `tokenOwner`
@@ -139,6 +140,7 @@ contract Share is ERC20Interface, Owned {
         balances[msg.sender] = balances[msg.sender].sub(tokens);
         balances[to] = balances[to].add(tokens);
         Transfer(msg.sender, to, tokens);
+        appendToShareHolders(to);
         return true;
     }
 
@@ -172,9 +174,24 @@ contract Share is ERC20Interface, Owned {
         allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
         balances[to] = balances[to].add(tokens);
         Transfer(from, to, tokens);
+        appendToShareHolders(to);
         return true;
     }
 
+    // ------------------------------------------------------------------------
+    // Shareholder Facade
+    // ------------------------------------------------------------------------
+
+    function getShareHolders() public returns (address[]) {
+      return shareHolders;
+    }
+
+    function appendToShareHolders(address newShareHolder) private {
+      for(uint256 i = 0; i <= shareHolders.length; i++) {
+          shareHolders[i];
+      }
+      shareHolders.push(newShareHolder);
+    }
 
     // ------------------------------------------------------------------------
     // Returns the amount of tokens approved by the owner that can be
@@ -183,7 +200,6 @@ contract Share is ERC20Interface, Owned {
     function allowance(address tokenOwner, address spender) public constant returns (uint remaining) {
         return allowed[tokenOwner][spender];
     }
-
 
     // ------------------------------------------------------------------------
     // Token owner can approve for `spender` to transferFrom(...) `tokens`
@@ -196,7 +212,6 @@ contract Share is ERC20Interface, Owned {
         ApproveAndCallFallBack(spender).receiveApproval(msg.sender, tokens, this, data);
         return true;
     }
-
 
     // ------------------------------------------------------------------------
     // Don't accept ETH

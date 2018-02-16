@@ -18,6 +18,7 @@ contract('Share', function(accounts) {
       assert.equal(balance.valueOf(), 10000, "10000 wasn't in the first account");
     });
   });
+
   it("should send coin correctly", function() {
     var meta;
 
@@ -40,7 +41,7 @@ contract('Share', function(accounts) {
       return meta.balanceOf.call(account_two);
     }).then(function(balance) {
       account_two_starting_balance = balance.toNumber();
-      return meta.transfer(account_two, amount, {from: account_one});
+      return meta.transfer(account_two, amount);
     }).then(function() {
       return meta.balanceOf.call(account_one);
     }).then(function(balance) {
@@ -55,6 +56,25 @@ contract('Share', function(accounts) {
       console.log(account_one_ending_balance)
       console.log("account_two_ending_balance")
       console.log(account_two_ending_balance)
+    });
+  });
+
+  it("should return all shareholders after some transactions happend", function() {
+    var meta;
+    // Get initial balances of first and second account.
+    var account_one = accounts[0];
+    var account_two = accounts[1];
+    var amount = 10;
+
+    return Share.deployed().then(function(instance) {
+      meta = instance;
+      return meta.balanceOf.call(account_one);
+    }).then(function(balance) {
+      return meta.transfer.call(account_two, amount);
+    }).then(function() {
+      return meta.getShareHolders().call();
+    }).then(function(shareHolders) {
+      console.log(shareHolders)
     });
   });
 });
