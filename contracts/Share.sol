@@ -31,7 +31,7 @@ contract ERC20Interface {
     function totalSupply() public constant returns (uint);
     function balanceOf(address tokenOwner) public constant returns (uint balance);
     function allowance(address tokenOwner, address spender) public constant returns (uint remaining);
-    function transfer(address to, uint tokens) public returns (bool success);
+    function transfer(address to, uint tokens) public payable returns (bool success);
     function approve(address spender, uint tokens) public returns (bool success);
     function transferFrom(address from, address to, uint tokens) public returns (bool success);
 
@@ -95,6 +95,11 @@ contract Share is ERC20Interface, Owned {
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
 
+    string bla;
+
+    function helloWorld() public payable {
+        bla = "YOLO";
+    }
 
     // ------------------------------------------------------------------------
     // Constructor
@@ -130,7 +135,7 @@ contract Share is ERC20Interface, Owned {
     // - Owner's account must have sufficient balance to transfer
     // - 0 value transfers are allowed
     // ------------------------------------------------------------------------
-    function transfer(address to, uint tokens) public returns (bool success) {
+    function transfer(address to, uint tokens) public payable returns (bool success) {
         balances[msg.sender] = balances[msg.sender].sub(tokens);
         balances[to] = balances[to].add(tokens);
         Transfer(msg.sender, to, tokens);
@@ -196,9 +201,9 @@ contract Share is ERC20Interface, Owned {
     // ------------------------------------------------------------------------
     // Don't accept ETH
     // ------------------------------------------------------------------------
-    function () public payable {
-        revert();
-    }
+//    function () public payable {
+//        revert();
+//    }
 
 
     // ------------------------------------------------------------------------
