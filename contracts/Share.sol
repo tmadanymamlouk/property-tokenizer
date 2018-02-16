@@ -24,4 +24,12 @@ contract Share {
         balanceOf[msg.sender] -= _value;                    // Subtract from the sender
         balanceOf[_to] += _value;                           // Add the same to the recipient
     }
+
+    // Allow `spender` to withdraw from your account, multiple times, up to the `tokens` amount.
+    // If this function is called again it overwrites the current allowance with _value.
+    function approve(address spender, uint tokens) public returns (bool success) {
+        allowed[msg.sender][spender] = tokens;
+        Approval(msg.sender, spender, tokens);
+        return true;
+    }
 }
