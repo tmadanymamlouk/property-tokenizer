@@ -17,6 +17,11 @@ contract Share {
         symbol = tokensymbol;
     }
 
+    // Get the token balance for account `tokenOwner`
+    function balanceOf(address tokenOwner) public constant returns (uint balance) {
+        return balances[tokenOwner];
+    }
+    
     // Send `tokens` amount of tokens from address `from` to address `to`
     // The transferFrom method is used for a withdraw workflow, allowing contracts to send
     // tokens on your behalf, for example to "deposit" to a contract address and/or to charge
